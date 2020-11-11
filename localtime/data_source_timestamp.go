@@ -12,7 +12,6 @@ func dataSourceTimestamp() *schema.Resource {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			// For layout formats, see https://golang.org/pkg/time/#pkg-constants
 			"layout": &schema.Schema{
 				Type:     schema.TypeString,
 				Optional: true,
@@ -22,13 +21,12 @@ func dataSourceTimestamp() *schema.Resource {
 			},
 			"location": &schema.Schema{
 				Type:     schema.TypeString,
+				Optional: true,
 			},
 			"timestamp": &schema.Schema{
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			// Only the timezone part of the timestamp layout
-			// Overidden by "layout"
 			"timezone_layout": &schema.Schema{
 				Type:     schema.TypeString,
 				Optional: true,
