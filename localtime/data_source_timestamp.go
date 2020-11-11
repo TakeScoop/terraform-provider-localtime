@@ -17,7 +17,7 @@ func dataSourceTimestamp() *schema.Resource {
 				Optional: true,
 			},
 			"local_time": &schema.Schema{
-				Type:     schema.TypeString,
+				Type: schema.TypeString,
 			},
 			"location": &schema.Schema{
 				Type:     schema.TypeString,
