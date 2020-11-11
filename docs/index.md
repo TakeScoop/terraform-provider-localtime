@@ -1,6 +1,6 @@
-# Localtime Provider
+# Local Time Provider
 
-The localtime provider converts a local timestamp (e.g. without timezone info) into one with the specified timezone and layout. 
+The localtime provides resources for dealing with local times and time zones.
 
 ## Example Usage
 
