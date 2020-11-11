@@ -1,14 +1,14 @@
 package localtime
 
 import (
-  "github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func Provider() *schema.Provider {
-  return &schema.Provider{
-    ResourcesMap: map[string]*schema.Resource{},
-    DataSourcesMap: map[string]*schema.Resource{
-      "localtime_timestamp": dataSourceTimestamp(),
-    },
-  }
+	return &schema.Provider{
+		ResourcesMap: map[string]*schema.Resource{},
+		DataSourcesMap: map[string]*schema.Resource{
+			"localtime_timestamp": dataSourceTimestamp(),
+		},
+	}
 }
