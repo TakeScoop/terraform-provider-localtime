@@ -13,7 +13,7 @@ func dataSourceTimestamp() *schema.Resource {
 		ReadContext: dataSourceTimestampRead,
 		Schema: map[string]*schema.Schema{
 			"id": &schema.Schema{
-				Type:     schema.TypeInt,
+				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"layout": &schema.Schema{
@@ -37,7 +37,8 @@ func dataSourceTimestamp() *schema.Resource {
 				ConflictsWith: []string{"layout"},
 			},
 			"local_time": &schema.Schema{
-				Type: schema.TypeString,
+				Type:     schema.TypeString,
+				Required: true,
 				ValidateFunc: func(val interface{}, key string) (warns []string, errs []error) {
 					v := val.(string)
 					_, err := dateparse.ParseStrict(v)
