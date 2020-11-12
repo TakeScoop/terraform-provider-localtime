@@ -17,7 +17,7 @@ data "localtime_timestamp" "local_timezone" {
 
 ```terraform
 # 2020/11/22 11:11:11 PST
-data "localtime_timestamp" "custom_timezone_layout" {
+data "localtime_timestamp" "custom_layout_timezone" {
   local_time      = "2020/11/22 11:11:11"
   layout_timezone = "MST"
 }
