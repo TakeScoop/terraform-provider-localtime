@@ -1,4 +1,4 @@
-package hashicups
+package localtime
 
 import (
 	"time"
@@ -12,10 +12,6 @@ func dataSourceTimestamp() *schema.Resource {
 	return &schema.Resource{
 		ReadContext: dataSourceTimestampRead,
 		Schema: map[string]*schema.Schema{
-			"id": &schema.Schema{
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"layout": &schema.Schema{
 				Type:          schema.TypeString,
 				Optional:      true,
