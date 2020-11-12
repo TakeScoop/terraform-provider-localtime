@@ -1,10 +1,13 @@
 package localtime
 
 import (
+	"context"
+	"fmt"
 	"time"
 
 	"github.com/araddon/dateparse"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
@@ -38,7 +41,7 @@ func dataSourceTimestamp() *schema.Resource {
 				ValidateFunc: func(val interface{}, key string) (warns []string, errs []error) {
 					v := val.(string)
 					_, err := dateparse.ParseStrict(v)
-					if err {
+					if err != nil {
 						errs = append(errs, err)
 					}
 					return
@@ -50,7 +53,7 @@ func dataSourceTimestamp() *schema.Resource {
 				ValidateFunc: func(val interface{}, key string) (warns []string, errs []error) {
 					v := val.(string)
 					_, err := time.LoadLocation(v)
-					if err {
+					if err != nil {
 						errs = append(errs, err)
 					}
 					return
@@ -64,10 +67,11 @@ func dataSourceTimestamp() *schema.Resource {
 	}
 }
 
-func dataSourceTimestampRead(ctx context.Context, d *schema.ResourceData, m interface{}) error {
-	var err error
+func dataSourceTimestampRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	// Warning or errors can be collected in a slice type
+	var diags diag.Diagnostics
 
 	// Add implementation details here
 
-	return err
+	return diags
 }
