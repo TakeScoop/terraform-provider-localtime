@@ -70,37 +70,37 @@ func dataSourceTimestamp() *schema.Resource {
 func dataSourceTimestampRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
 
-	local_time := d.Get("local_time").(string)
+	localTime := d.Get("local_time").(string)
 
 	layout := d.Get("layout").(string)
 	if layout == "" {
-		layout_local, err := dateparse.ParseFormat(local_time)
+		layout_local, err := dateparse.ParseFormat(localTime)
 		if err != nil {
-			return diag.FromErr(err)
+			return diag.Errorf("error parsing local time: %s", err)
 		}
 
 		layout = fmt.Sprintf("%s %s", layout_local, d.Get("layout_timezone"))
 	}
 
-	var location *time.Location
-
-	location_str := d.Get("location").(string)
-	if location_str == "" {
-		location = time.Local
-	} else {
-		location, _ = time.LoadLocation(location_str)
+	location := time.Local
+	if v, ok := d.GetOk("location"); ok {
+		var err error
+		location, err = time.LoadLocation(v.(string))
+		if err != nil {
+			return diag.Errorf("error loading location: %s", err)
+		}
 	}
 
-	t, err := dateparse.ParseIn(local_time, location)
+	t, err := dateparse.ParseIn(localTime, location)
 	if err != nil {
-		return diag.FromErr(err)
+		return diag.Errorf("error parsing time in location: %s", err)
 	}
 
 	if err = d.Set("timestamp", t.Format(layout)); err != nil {
-		return diag.FromErr(err)
+		return diag.Errorf("error setting timestamp in resource: %s", err)
 	}
 
-	d.SetId(local_time)
+	d.SetId(localTime)
 
 	return diags
 }

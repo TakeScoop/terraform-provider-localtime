@@ -51,8 +51,21 @@ func TestAccDataSourceTimestamp_timezone(t *testing.T) {
 	})
 }
 
+func TestAccDataSourceTimestamp_dst(t *testing.T) {
+	testAccDataSourceTimestampHelper(t, &TestAccDataSourceTimestampCase{
+		Name:              "dst",
+		ExpectedTimestamp: "2020/06/06 11:11:11 -0700",
+		Config: `
+		data "localtime_timestamp" "dst" {
+		  local_time      = "2020/06/06 11:11:11"
+		  location        = "America/Los_Angeles"
+		}`,
+	})
+}
+
+
 func testAccDataSourceTimestampHelper(t *testing.T, test_case *TestAccDataSourceTimestampCase) {
-	resource.Test(t, resource.TestCase{
+	resource.ParallelTest(t, resource.TestCase{
 		Providers: testAccProviders,
 		Steps: []resource.TestStep{
 			{
