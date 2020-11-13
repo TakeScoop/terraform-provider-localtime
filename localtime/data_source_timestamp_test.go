@@ -63,7 +63,6 @@ func TestAccDataSourceTimestamp_dst(t *testing.T) {
 	})
 }
 
-
 func testAccDataSourceTimestampHelper(t *testing.T, test_case *TestAccDataSourceTimestampCase) {
 	resource.ParallelTest(t, resource.TestCase{
 		Providers: testAccProviders,
