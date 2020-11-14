@@ -68,10 +68,39 @@ func dataSourceTimestamp() *schema.Resource {
 }
 
 func dataSourceTimestampRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	// Warning or errors can be collected in a slice type
 	var diags diag.Diagnostics
 
-	// Add implementation details here
+	localTime := d.Get("local_time").(string)
+
+	layout := d.Get("layout").(string)
+	if layout == "" {
+		layout_local, err := dateparse.ParseFormat(localTime)
+		if err != nil {
+			return diag.Errorf("error parsing local time: %s", err)
+		}
+
+		layout = fmt.Sprintf("%s %s", layout_local, d.Get("layout_timezone"))
+	}
+
+	location := time.Local
+	if v, ok := d.GetOk("location"); ok {
+		var err error
+		location, err = time.LoadLocation(v.(string))
+		if err != nil {
+			return diag.Errorf("error loading location: %s", err)
+		}
+	}
+
+	t, err := dateparse.ParseIn(localTime, location)
+	if err != nil {
+		return diag.Errorf("error parsing time in location: %s", err)
+	}
+
+	if err = d.Set("timestamp", t.Format(layout)); err != nil {
+		return diag.Errorf("error setting timestamp in resource: %s", err)
+	}
+
+	d.SetId(localTime)
 
 	return diags
 }
